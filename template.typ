@@ -33,15 +33,13 @@
   let header(self) = {
     set align(top)
     grid(
-      rows: (auto, auto),
+      rows: (auto, auto, auto),
       row-gutter: 3mm,
-      if self.store.progress-bar {
-        components.progress-bar(
-          height: 2pt,
-          self.colors.primary,
-          self.colors.tertiary,
-        )
-      },
+      grid(
+        rows: (auto, auto),
+        utils.call-or-display(self, self.store.navigation),
+        utils.call-or-display(self, self.store.header),
+      ),
       block(
         inset: (x: .5em),
         components.left-and-right(
@@ -53,7 +51,7 @@
           ),
           text(
             fill: self.colors.primary.lighten(65%),
-            none
+            none,
           ),
         ),
       ),
@@ -154,6 +152,29 @@
     }
   }
   let body = {
+    if info.logo != none {
+      block(
+        fill: white,
+        inset: 0pt,
+        outset: 0pt,
+        grid(
+          align: center + horizon,
+          columns: (1fr, auto),
+          rows: 1.6em,
+          gutter: 0em,
+          [],
+          align(
+            right,
+            block(
+              fill: white,
+              inset: 4pt,
+              height: 100%,
+              text(fill: white, info.logo),
+            ),
+          ),
+        ),
+      )
+    }
     align(
       center + horizon,
       {
@@ -189,9 +210,6 @@
         }
       },
     )
-    if info.logo != none {
-      place(top + right, info.logo)
-    }
   }
   self = utils.merge-dicts(
     self,
@@ -219,6 +237,7 @@
   aspect-ratio: "16-9",
   progress-bar: true,
   header: utils.display-current-heading(level: 2),
+  header-right: self => self.info.logo,
   footer-rows: (1fr, 1fr),
   footer-up-left: self => self.info.author,
   footer-up-right: self => self.info.institution,
@@ -260,6 +279,13 @@
     config-store(
       progress-bar: progress-bar,
       header: header,
+      navigation: self => components.simple-navigation(
+        self: self,
+        primary: self.colors.primary,
+        secondary: gray,
+        background: self.colors.neutral-lightest,
+        logo: utils.call-or-display(self, header-right),
+      ),
       footer-rows: footer-rows,
       footer-up-left: footer-up-left,
       footer-up-right: footer-up-right,

@@ -9,7 +9,7 @@
     author: "张三",                                     // 汇报人
     date: datetime.today(),                            // 时间，需要自定义的话可以改成任何字符串，例如"1949-10-01"
     institution: "中国科学院XXXX研究所/学院",            // 单位
-    logo: image("assets/ucas_logo.svg", width: 30%),   // 单位logo
+    logo: image("assets/ucas_logo.svg"),               // 单位logo
   ),
 )
 
@@ -17,12 +17,12 @@
 
 #ucas-slide(composer: (1fr, 1fr))[
   = 双栏排版
-][= 双栏排版]
+][第二栏]
 
 #ucas-slide(composer: (1fr, 1fr, 1fr))[
-  = 双栏排版
-][= 双栏排版][
-  = 当然也可以有更多栏
+  = 多栏排版
+][第二栏][
+  更多栏
 ]
 
 #ucas-slide[
